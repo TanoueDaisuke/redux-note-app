@@ -13,7 +13,7 @@ const noteReducer = (state = [], action) => {
         note.id !== id ? note : changedNote  
       )
     default:
-      break;
+      return state;
   }
 }
 
