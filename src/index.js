@@ -40,6 +40,8 @@ const App = () => {
         id: generateId()
       }
     })
+
+    // console.log(store.getState()); >>> stateのdataのvalue
   }
 
   const toggleImportance = id => {
