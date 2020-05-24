@@ -12,6 +12,8 @@ const initialState = [
 ]
 
 const noteReducer = (state = initialState, action) => {
+  console.log(action.type);
+  
   switch (action.type) {
     case 'NEW_NOTE':
       return state.concat(action.data)

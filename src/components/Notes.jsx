@@ -15,7 +15,16 @@ const Note = ({ note, handleClick }) => {
 
 // Noteコンポをラップし、イベントハンドラーのロジックがあり、presentationalコンポを配置しているので「containerコンポーネント」
 const Notes = () => {
-  const notes = useSelector(state => state)
+  
+  const notes = useSelector(state => {
+    if (state.filter === 'ALL') {
+      return state.notes
+    }
+    return state.filer === 'IMPORTANT'
+      ? state.notes.filter(note => note.important)
+      : state.notes.filter(note => !note.important)
+
+  })
   const dispatch = useDispatch()
 
   return (
