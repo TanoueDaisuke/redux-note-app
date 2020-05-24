@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import noteService from './services/note'
 
 import App from './App'
 import noteReducer from './reducers/noteReducer'
