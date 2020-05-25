@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { toggleImportanceOf } from '../reducers/noteReducer'
+import noteService from '../services/note'
 
 // Noteコンポーネントにはロジックが含まれておらず、表示しているだけなので「presentationalコンポーネント」
 const Note = ({ note, handleClick }) => {
@@ -15,7 +16,13 @@ const Note = ({ note, handleClick }) => {
 
 // Noteコンポをラップし、イベントハンドラーのロジックがあり、presentationalコンポを配置しているので「containerコンポーネント」
 const Notes = () => {
-  
+  const dispatch = useDispatch()
+
+  const handleClick = async (note) => {
+    const toggledNote = await noteService.toggleImportantUpdate(note)
+    dispatch(toggleImportanceOf(toggledNote.id))
+  }
+
   const notes = useSelector(state => {
     if (state.filter === 'ALL') {
       return state.notes
@@ -23,9 +30,8 @@ const Notes = () => {
     return state.filer === 'IMPORTANT'
       ? state.notes.filter(note => note.important)
       : state.notes.filter(note => !note.important)
-
   })
-  const dispatch = useDispatch()
+  
 
   return (
   <ul>
@@ -33,7 +39,7 @@ const Notes = () => {
       <Note
         key={note.id}
         note={note}
-        handleClick={() => dispatch(toggleImportanceOf(note.id))}
+        handleClick={() => handleClick(note) }
       />
     )}
   </ul>
