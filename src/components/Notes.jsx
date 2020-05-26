@@ -2,7 +2,6 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { toggleImportanceOf } from '../reducers/noteReducer'
-import noteService from '../services/note'
 
 // Noteコンポーネントにはロジックが含まれておらず、表示しているだけなので「presentationalコンポーネント」
 const Note = ({ note, handleClick }) => {
@@ -19,8 +18,7 @@ const Notes = () => {
   const dispatch = useDispatch()
 
   const handleClick = async (note) => {
-    const toggledNote = await noteService.toggleImportantUpdate(note)
-    dispatch(toggleImportanceOf(toggledNote.id))
+    dispatch(toggleImportanceOf(note))
   }
 
   const notes = useSelector(state => {

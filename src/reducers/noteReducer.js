@@ -1,3 +1,5 @@
+import noteService from '../services/note'
+
 const noteReducer = (state = [], action) => {
   console.log(action.type);
   
@@ -21,28 +23,41 @@ const noteReducer = (state = [], action) => {
   }
 }
 
-// const generateId = () => (
-//   Number( (Math.random() * 1000000).toFixed(0) )
-// )
 
-export const createNote = data => {
-  return {
-    type: 'NEW_NOTE',
-    data
+export const createNote = content => {
+  return async (dispatch) => {
+    const newNote = await noteService.createNew(content)
+    dispatch({
+      type: 'NEW_NOTE',
+      data: newNote
+    })
   }
 }
 
-export const toggleImportanceOf = id => {
-  return {
-    type: 'TOGGLE_IMPORTANCE',
-    data: { id }
+export const toggleImportanceOf = note => {
+  return async dispatch => {
+    const updatedNote = await noteService.toggleImportantUpdate(note)
+    
+    dispatch({
+      type: 'TOGGLE_IMPORTANCE',
+      data: { id: updatedNote.id }
+    })
   }
+  // return {
+  //   type: 'TOGGLE_IMPORTANCE',
+  //   data: { id }
+  // }
 }
 
-export const initializeNotes = notes => {
-  return {
-    type: 'INIT_NOTES',
-    data: notes
+// action変更したOBJだけでなく、dbとの通信まで行う
+// そして同期処理を行うdispatch関数を返却
+export const initializeNotes = () => {
+  return async dispatch => {
+    const notes = await noteService.getAll()
+    dispatch({
+      type: 'INIT_NOTES',
+      data: notes
+    })
   }
 }
 
