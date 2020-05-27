@@ -17,13 +17,14 @@ const Note = ({ note, handleClick }) => {
 const Notes = () => {
   const dispatch = useDispatch()
 
-  const notes = useSelector(state => {
-    if (state.filter === 'ALL') {
-      return state.notes
+  // 引数はstateオブジェクト, そのオブジェクトのキー名を変数とした
+  const notes = useSelector(({ filter, notes}) => {
+    if (filter === 'ALL') {
+      return notes
     }
-    return state.filer === 'IMPORTANT'
-      ? state.notes.filter(note => note.important)
-      : state.notes.filter(note => !note.important)
+    return filter === 'IMPORTANT'
+      ? notes.filter(note => note.important)
+      : notes.filter(note => !note.important)
   })
   
 
